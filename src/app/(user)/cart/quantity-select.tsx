@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/select';
 import { CartItem } from '@prisma/client';
 import { useTransition } from 'react';
-import { changeCartItemQuantityAction } from './cart-action';
+import { changeCartItemQuantityAction } from '@/actions/cart/change-quantity';
 
 export default function QuantitySelect({ cartItem }: { cartItem: CartItem }) {
   const [isPending, startTransition] = useTransition();

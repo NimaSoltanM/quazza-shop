@@ -1,5 +1,4 @@
 import CommentForm from './comment-form';
-import { Button } from '../../ui/button';
 import { Review } from '@prisma/client';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
@@ -23,7 +22,7 @@ export default async function CommentSection({
           {reviews.length > 0 ? (
             reviews.map((review) => (
               <div
-                className='border border-gray-200 w-full rounded-lg p-4 dark:border-gray-800 flex flex-col gap-3'
+                className='border border-gray-200 w-full rounded-lg p-4 dark:border-gray-800 flex flex-col my-3 first:mt-0'
                 key={review.id}>
                 <div className='flex justify-between'>
                   <h3 className='font-bold'>{review.username}</h3>

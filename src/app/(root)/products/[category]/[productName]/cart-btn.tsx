@@ -6,7 +6,7 @@ import { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { Session } from 'next-auth';
 import { toast } from 'sonner';
-import { addToCartAction } from './add-to-cart-action';
+import { addToCartAction } from '@/actions/cart/add-to-cart-action';
 import { useRouter } from 'next/navigation';
 
 export default function CartBtn({

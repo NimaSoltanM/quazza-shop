@@ -1,4 +1,3 @@
-import { db } from '@/lib/db';
 import SubmitButton from '../../shared/submit-btn';
 import {
   Select,
@@ -8,6 +7,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { revalidatePath } from 'next/cache';
+import { addReviewAction } from '@/actions/products/review-actions';
 
 export default async function CommentForm({
   productId,
@@ -21,6 +21,8 @@ export default async function CommentForm({
     const rating = Number(formData.get('rating'));
 
     if (!comment || !rating) return;
+
+    await addReviewAction(productId, comment, rating);
 
     revalidatePath(`/products`);
   };
