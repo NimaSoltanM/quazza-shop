@@ -10,9 +10,10 @@ import {
   DropdownMenuContent,
   DropdownMenu,
 } from '@/components/ui/dropdown-menu';
-import LogoutOption from './logout-option';
+import SignOutOption from './sign-out-option';
+import { ShoppingCartIcon } from 'lucide-react';
 
-export default async function NavButton() {
+export default async function UserButton() {
   const session = await auth();
 
   if (session) {
@@ -32,12 +33,14 @@ export default async function NavButton() {
               Profile
             </DropdownMenuItem>
           </Link>
-          <DropdownMenuItem>
-            <SettingsIcon className='h-5 w-5 mr-2' />
-            Settings
-          </DropdownMenuItem>
+          <Link href='/cart'>
+            <DropdownMenuItem>
+              <ShoppingCartIcon className='h-5 w-5 mr-2' />
+              Cart
+            </DropdownMenuItem>
+          </Link>
           <DropdownMenuSeparator />
-          <LogoutOption />
+          <SignOutOption />
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -45,7 +48,7 @@ export default async function NavButton() {
 
   return (
     <Button asChild>
-      <Link href='/sign-in'>Sign In</Link>
+      <Link href='/api/auth/signin'>Sign In</Link>
     </Button>
   );
 }

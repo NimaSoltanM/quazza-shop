@@ -1,10 +1,11 @@
 'use client';
 
+import { signOutAction } from './auth-comps-actions';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
-export default function LogoutOption() {
+export default function SignOutOption() {
   return (
-    <DropdownMenuItem color='destructive'>
+    <DropdownMenuItem color='destructive' onClick={() => signOutAction()}>
       <LogOutIcon className='h-5 w-5 mr-2' />
       Sign Out
     </DropdownMenuItem>

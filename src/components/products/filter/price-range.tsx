@@ -18,23 +18,22 @@ export default function PriceRange({ ranges }: { ranges: priceRange[] }) {
   const { replace } = useRouter();
 
   const handleRange = (value: string) => {
-    const [min, max] = value.split('&').map((part) => {
-      // parse string values
-      const [key, price] = part.split('=');
-      return { [key]: price };
-    });
-
     const params = new URLSearchParams(searchParams);
-
-    // set as strings
-    if (min) params.set('minPrice', min.min);
-    if (max) params.set('maxPrice', max.max);
 
     if (value === 'all') {
       params.delete('price-range');
       params.delete('minPrice');
       params.delete('maxPrice');
-    } else if (value) {
+    } else {
+      const [min, max] = value.split('&').map((part) => {
+        const [key, price] = part.split('=');
+        if (key === 'min') {
+          params.set('minPrice', price);
+        } else if (key === 'max') {
+          params.set('maxPrice', price);
+        }
+      });
+
       params.set('price-range', value);
     }
 

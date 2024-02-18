@@ -1,7 +1,7 @@
 import { SheetTrigger, SheetContent, Sheet } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import NavButton from './nav-button';
+import UserButton from '../auth components/user-button';
 
 export default async function Navbar() {
   return (
@@ -63,7 +63,7 @@ export default async function Navbar() {
         </nav>
       </div>
       <div className='ml-auto w-[150px]'>
-        <NavButton />
+        <UserButton />
       </div>
     </header>
   );

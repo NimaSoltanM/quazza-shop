@@ -1,10 +1,10 @@
 import { db } from '@/lib/db';
 import Image from 'next/image';
 import CommentSection from '@/components/products/comment/comment-section';
-import SubmitButton from '@/components/shared/submit-btn';
-import { ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatPrice } from '@/lib/utils';
+import { auth } from '@/auth/auth';
+import CartBtn from './cart-btn';
 
 export default async function Component({
   params: { productName },
@@ -17,6 +17,8 @@ export default async function Component({
     where: { name: defaultProductName },
     include: { reviews: true },
   });
+
+  const session = await auth();
 
   if (!product)
     return (
@@ -68,15 +70,7 @@ export default async function Component({
           </div>
 
           {product.inStock ? (
-            <form
-              action={async () => {
-                'use server';
-                console.log('hello');
-              }}>
-              <SubmitButton className='w-full'>
-                <ShoppingCart className='mr-2 h-4 w-4' /> Add To Cart
-              </SubmitButton>
-            </form>
+            <CartBtn productId={product.id} session={session} />
           ) : (
             <Button disabled size='lg' className='w-full cursor-not-allowed'>
               Out of Stock for now

@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import FeaturedProducts from './featured-products';
+import { signOut } from '@/auth/auth';
 
 export default function Home() {
   return (
@@ -21,6 +22,15 @@ export default function Home() {
                   <h1 className='text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none'>
                     Discover th e Latest Tech
                   </h1>
+                  <form
+                    action={async () => {
+                      'use server';
+
+                      console.log('awdokawopdk');
+                      await signOut();
+                    }}>
+                    <Button type='submit'>signout</Button>
+                  </form>
                   <p className='max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
                     Explore our collection of cutting-edge devices and gadgets.
                     Upgrade your tech game today.
