@@ -11,3 +11,15 @@ export const getCurrentUserId = async () => {
 
   return id;
 };
+
+export const getCurrentUser = async () => {
+  'use server';
+
+  const session = await auth();
+
+  if (!session) return;
+
+  const user = session.user;
+
+  return user;
+};

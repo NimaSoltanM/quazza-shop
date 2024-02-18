@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Session } from 'next-auth';
 import { toast } from 'sonner';
 import { addToCartAction } from './add-to-cart-action';
+import { useRouter } from 'next/navigation';
 
 export default function CartBtn({
   productId,
@@ -15,6 +16,7 @@ export default function CartBtn({
   productId: string;
   session: Session | null;
 }) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [success, setSuccess] = useState(false);
 
@@ -27,7 +29,12 @@ export default function CartBtn({
       startTransition(async () => {
         await addToCartAction(productId);
         setSuccess(true);
-        toast.success('Added to cart');
+        toast.success('Added to cart', {
+          action: {
+            label: 'View the cart',
+            onClick: () => router.push('/cart'),
+          },
+        });
       });
     }
   };
