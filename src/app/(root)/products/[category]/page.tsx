@@ -67,6 +67,9 @@ export default async function Page({
       },
     },
     orderBy: getOrderBy(orderBy),
+    include: {
+      reviews: true,
+    },
   });
 
   const pricesInCategory = await db.product.findMany({
@@ -95,7 +98,12 @@ export default async function Page({
         <div className='md:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8'>
           {products.length ? (
             products.map((prod) => (
-              <ProductCard product={prod} key={prod.id} category={category} />
+              <ProductCard
+                product={prod}
+                key={prod.id}
+                category={category}
+                reviews={prod.reviews}
+              />
             ))
           ) : (
             <p>No products found</p>

@@ -44,104 +44,95 @@ export default async function Page() {
 
   return (
     <>
-      <>
-        <Navbar />
-        {cartItems.length === 0 ? (
-          <div>
-            <p>No Item has been found</p>
-            <Link href='/products' className='underline'>
-              Continue shopping
-            </Link>
-          </div>
-        ) : (
-          <div className='p-4 md:p-8'>
-            <h1 className='text-2xl md:text-3xl font-semibold mb-6'>
-              Shopping Cart
-            </h1>
-            <div className='border rounded-lg overflow-hidden'>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Product</TableHead>
-                    <TableHead className='text-right'>Price</TableHead>
-                    <TableHead className='text-right'>Quantity</TableHead>
-                    <TableHead className='text-right'>Total</TableHead>
-                  </TableRow>
-                </TableHeader>
+      {cartItems.length === 0 ? (
+        <div>
+          <p>No Item has been found</p>
+          <Link href='/products' className='underline'>
+            Continue shopping
+          </Link>
+        </div>
+      ) : (
+        <div className='p-4 md:p-8'>
+          <h1 className='text-2xl md:text-3xl font-semibold mb-6'>
+            Shopping Cart
+          </h1>
+          <div className='border rounded-lg overflow-hidden'>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Product</TableHead>
+                  <TableHead className='text-right'>Price</TableHead>
+                  <TableHead className='text-right'>Quantity</TableHead>
+                  <TableHead className='text-right'>Total</TableHead>
+                </TableRow>
+              </TableHeader>
 
-                <TableBody>
-                  {cartItems.map((cartItem) => (
-                    <TableRow key={cartItem.id}>
-                      <TableCell>
-                        <div className='flex items-center max-sm:flex-col gap-4'>
-                          <Image
-                            alt='Product image'
-                            className='aspect-square rounded-md object-cover'
-                            height='64'
-                            src={cartItem.product.imageUrl}
-                            width='64'
-                          />
-                          <span className='font-medium'>
-                            {cartItem.product.name}
-                          </span>
-                        </div>
-                      </TableCell>
-                      <TableCell className='text-right'>
-                        {formatPrice(cartItem.product.price)}
-                      </TableCell>
-                      <TableCell>
-                        <QuantitySelect cartItem={cartItem} />
-                      </TableCell>
-                      <TableCell className='text-right'>
-                        {formatPrice(
-                          cartItem.quantity * cartItem.product.price
-                        )}
-                      </TableCell>
-                      <TableCell className='text-right'>
-                        <RemoveBtn id={cartItem.id} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-            <div className='mt-8'>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Order Summary</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className='flex justify-between mb-2'>
-                    <span>Subtotal</span>
-                    <span className='font-semibold'>
-                      {formatPrice(subTotal)}
-                    </span>
-                  </div>
-                  <div className='flex justify-between mb-2'>
-                    <span>Taxes (5%)</span>
-                    <span className='font-semibold'>{formatPrice(tax)}</span>
-                  </div>
-                  <div className='flex justify-between mb-2'>
-                    <span>Shipping</span>
-                    <span className='font-semibold'>
-                      {formatPrice(shipping)}
-                    </span>
-                  </div>
-                  <div className='flex justify-between border-t border-gray-200 pt-2 mt-2'>
-                    <span className='font-bold'>Total</span>
-                    <span className='font-bold'>
-                      {formatPrice(subTotal + tax + shipping)}
-                    </span>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button className='w-full'>Proceed to Checkout</Button>
-                </CardFooter>
-              </Card>
-            </div>
+              <TableBody>
+                {cartItems.map((cartItem) => (
+                  <TableRow key={cartItem.id}>
+                    <TableCell>
+                      <div className='flex items-center max-sm:flex-col gap-4'>
+                        <Image
+                          alt='Product image'
+                          className='aspect-square rounded-md object-cover'
+                          height='64'
+                          src={cartItem.product.imageUrl}
+                          width='64'
+                        />
+                        <span className='font-medium'>
+                          {cartItem.product.name}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className='text-right'>
+                      {formatPrice(cartItem.product.price)}
+                    </TableCell>
+                    <TableCell>
+                      <QuantitySelect cartItem={cartItem} />
+                    </TableCell>
+                    <TableCell className='text-right'>
+                      {formatPrice(cartItem.quantity * cartItem.product.price)}
+                    </TableCell>
+                    <TableCell className='text-right'>
+                      <RemoveBtn id={cartItem.id} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
-        )}
-      </>
+          <div className='mt-8'>
+            <Card>
+              <CardHeader>
+                <CardTitle>Order Summary</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className='flex justify-between mb-2'>
+                  <span>Subtotal</span>
+                  <span className='font-semibold'>{formatPrice(subTotal)}</span>
+                </div>
+                <div className='flex justify-between mb-2'>
+                  <span>Taxes (5%)</span>
+                  <span className='font-semibold'>{formatPrice(tax)}</span>
+                </div>
+                <div className='flex justify-between mb-2'>
+                  <span>Shipping</span>
+                  <span className='font-semibold'>{formatPrice(shipping)}</span>
+                </div>
+                <div className='flex justify-between border-t border-gray-200 pt-2 mt-2'>
+                  <span className='font-bold'>Total</span>
+                  <span className='font-bold'>
+                    {formatPrice(subTotal + tax + shipping)}
+                  </span>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className='w-full'>Proceed to Checkout</Button>
+              </CardFooter>
+            </Card>
+          </div>
+        </div>
+      )}
     </>
   );
 }

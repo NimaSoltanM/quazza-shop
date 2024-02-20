@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { Product } from '@prisma/client';
+import { Product, Review } from '@prisma/client';
 import { CardHeader, CardContent, Card } from '@/components/ui/card';
 
 import { Button } from '@/components/ui/button';
@@ -11,10 +11,37 @@ import { formatPrice } from '@/lib/utils';
 export default function ProductCard({
   product,
   category,
+  reviews,
 }: {
   product: Product;
   category: string;
+  reviews: Review[];
 }) {
+  // Calculate the average rating
+  const averageRating =
+    reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
+
+  // Render stars based on the average rating
+  const renderStars = () => {
+    const fullStars = Math.floor(averageRating);
+    const halfStars = Math.ceil(averageRating - fullStars);
+    const emptyStars = 5 - fullStars - halfStars;
+
+    // Render the stars using fullStars, halfStars, and emptyStars
+    return (
+      <div className='flex items-center gap-0.5 mb-4'>
+        {/* Render full stars */}
+        {Array(fullStars).fill(<StarIcon className='w-5 h-5 fill-primary' />)}
+        {/* Render half stars */}
+        {Array(halfStars).fill(<StarIcon className='w-5 h-5 fill-primary' />)}
+        {/* Render empty stars */}
+        {Array(emptyStars).fill(
+          <StarIcon className='w-5 h-5 fill-muted stroke-muted-foreground' />
+        )}
+      </div>
+    );
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -42,13 +69,7 @@ export default function ProductCard({
             <Badge variant='destructive'>Out of Stock</Badge>
           )}
         </div>
-        <div className='flex items-center gap-0.5 mb-4'>
-          <StarIcon className='w-5 h-5 fill-primary' />
-          <StarIcon className='w-5 h-5 fill-primary' />
-          <StarIcon className='w-5 h-5 fill-primary' />
-          <StarIcon className='w-5 h-5 fill-muted stroke-muted-foreground' />
-          <StarIcon className='w-5 h-5 fill-muted stroke-muted-foreground' />
-        </div>
+        {reviews.length ? renderStars() : <p>No ratings yet !</p>}
         <Button
           className='w-full py-2 text-white bg-primary rounded-md hover:bg-primary-dark'
           asChild>
