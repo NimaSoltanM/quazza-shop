@@ -4,7 +4,6 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 import Link from 'next/link';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenuTrigger,
@@ -20,79 +19,50 @@ import {
   TableHeader,
   TableBody,
   Table,
+  TableCell,
 } from '@/components/ui/table';
 import Image from 'next/image';
+import { db } from '@/lib/db';
 
-export default function Page() {
+export default async function Page() {
+  const customers = await db.user.findMany();
+
   return (
-    <div className='flex flex-col'>
-      <header className='flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40'>
-        <Link
-          className='lg:hidden flex items-center gap-2 font-semibold'
-          href='#'>
-          <Package2Icon className='h-6 w-6' />
-          <span className=''>Acme Inc</span>
-        </Link>
-        <Button className='rounded-lg border' size='icon' variant='ghost'>
-          <SearchIcon className='h-4 w-4' />
-          <span className='sr-only'>Toggle search</span>
-        </Button>
-        <div className='flex-1' />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              className='rounded-full border border-gray-200 w-8 h-8 dark:border-gray-800'
-              size='icon'
-              variant='ghost'>
-              <Image
-                alt='Avatar'
-                className='rounded-full'
-                height='32'
-                src='/placeholder.svg'
-                style={{
-                  aspectRatio: '32/32',
-                  objectFit: 'cover',
-                }}
-                width='32'
-              />
-              <span className='sr-only'>Toggle user menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </header>
+    <>
       <main className='flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6'>
-        <div className='flex items-center'>
+        <div className='flex items-center justify-between'>
           <h1 className='font-semibold text-lg md:text-2xl'>Customers</h1>
-          <div className='ml-auto flex gap-4'>
+          <div className='flex flex-col md:flex-row gap-4'>
             <Button>Add New Customer</Button>
             <Button>Export Customer List</Button>
           </div>
         </div>
         <div className='border shadow-sm rounded-lg'>
-          <Table>
+          <Table className='w-full'>
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead>Phone Number</TableHead>
                 <TableHead>Date Joined</TableHead>
                 <TableHead>Order Count</TableHead>
                 <TableHead>Total Spent</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody />
+            <TableBody>
+              {customers.map((c) => (
+                <TableRow key={c.id}>
+                  <TableCell className='font-medium'>{c.name}</TableCell>
+                  <TableCell>{c.email}</TableCell>
+                  <TableCell>{c.emailVerified!.toLocaleDateString()}</TableCell>
+                  <TableCell>order count</TableCell>
+                  <TableCell>total spent</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
           </Table>
         </div>
       </main>
-    </div>
+    </>
   );
 }
 

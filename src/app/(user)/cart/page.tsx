@@ -1,4 +1,3 @@
-import Navbar from '@/components/layout/navbar';
 import { getCurrentUserId } from '@/lib/auth';
 import { db } from '@/lib/db';
 import Link from 'next/link';
@@ -23,6 +22,7 @@ import { Button } from '@/components/ui/button';
 import QuantitySelect from './quantity-select';
 import RemoveBtn from './remove-btn';
 import { formatPrice } from '@/lib/utils';
+import { checkoutAction } from '@/actions/cart/checkout';
 
 export default async function Page() {
   const userId = await getCurrentUserId();
@@ -127,7 +127,11 @@ export default async function Page() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className='w-full'>Proceed to Checkout</Button>
+                <form className='w-full' action={checkoutAction}>
+                  <Button className='w-full' type='submit'>
+                    Proceed to Checkout
+                  </Button>
+                </form>
               </CardFooter>
             </Card>
           </div>

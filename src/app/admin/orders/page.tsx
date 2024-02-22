@@ -17,52 +17,26 @@ import {
   TableBody,
   Table,
 } from '@/components/ui/table';
+import { db } from '@/lib/db';
+import { formatPrice } from '@/lib/utils';
 
-export default function Component() {
+export default async function Page() {
+  async function getUserName(userId: string) {
+    const user = await db.user.findUnique({
+      where: { id: userId },
+    });
+
+    return user?.name;
+  }
+
+  const orders = await db.order.findMany({
+    include: {
+      items: true,
+    },
+  });
+
   return (
     <div className='flex flex-col'>
-      <header className='flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40'>
-        <Link
-          className='lg:hidden flex items-center gap-2 font-semibold'
-          href='#'>
-          <Package2Icon className='h-6 w-6' />
-          <span className=''>Acme Inc</span>
-        </Link>
-        <Button className='rounded-lg border' size='icon' variant='ghost'>
-          <SearchIcon className='h-4 w-4' />
-          <span className='sr-only'>Toggle search</span>
-        </Button>
-        <div className='flex-1' />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              className='rounded-full border border-gray-200 w-8 h-8 dark:border-gray-800'
-              size='icon'
-              variant='ghost'>
-              <Image
-                alt='Avatar'
-                className='rounded-full'
-                height='32'
-                src='/placeholder.svg'
-                style={{
-                  aspectRatio: '32/32',
-                  objectFit: 'cover',
-                }}
-                width='32'
-              />
-              <span className='sr-only'>Toggle user menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </header>
       <main className='flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6'>
         <div className='border shadow-sm rounded-lg p-2'>
           <Table>
@@ -70,7 +44,6 @@ export default function Component() {
               <TableRow>
                 <TableHead className='w-[100px]'>Order</TableHead>
                 <TableHead className='min-w-[150px]'>Customer</TableHead>
-                <TableHead className='hidden md:table-cell'>Channel</TableHead>
                 <TableHead className='hidden md:table-cell'>Date</TableHead>
                 <TableHead className='text-right'>Total</TableHead>
                 <TableHead className='hidden sm:table-cell'>Status</TableHead>
@@ -79,54 +52,38 @@ export default function Component() {
             </TableHeader>
             <TableBody>
               <TableRow>
-                <TableCell className='font-medium'>#3210</TableCell>
-                <TableCell>Olivia Martin</TableCell>
-                <TableCell className='hidden md:table-cell'>
-                  Online Store
-                </TableCell>
-                <TableCell className='hidden md:table-cell'>
-                  February 20, 2022
-                </TableCell>
-                <TableCell className='text-right'>$42.25</TableCell>
-                <TableCell className='hidden sm:table-cell'>Shipped</TableCell>
-                <TableCell className='text-right'>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size='icon' variant='ghost'>
-                        <MoreHorizontalIcon className='w-4 h-4' />
-                        <span className='sr-only'>Actions</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align='end'>
-                      <DropdownMenuItem>View order</DropdownMenuItem>
-                      <DropdownMenuItem>Customer details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className='font-medium'>#3209</TableCell>
-                <TableCell>Ava Johnson</TableCell>
-                <TableCell className='hidden md:table-cell'>Shop</TableCell>
-                <TableCell className='hidden md:table-cell'>
-                  January 5, 2022
-                </TableCell>
-                <TableCell className='text-right'>$74.99</TableCell>
-                <TableCell className='hidden sm:table-cell'>Paid</TableCell>
-                <TableCell className='text-right'>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size='icon' variant='ghost'>
-                        <MoreHorizontalIcon className='w-4 h-4' />
-                        <span className='sr-only'>Actions</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align='end'>
-                      <DropdownMenuItem>View order</DropdownMenuItem>
-                      <DropdownMenuItem>Customer details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
+                {orders.map((order) => (
+                  <>
+                    <TableCell className='font-medium'>
+                      {order.digitId}
+                    </TableCell>
+                    <TableCell>{getUserName(order.userId)}</TableCell>
+                    <TableCell className='hidden md:table-cell'>
+                      {/* use order.createdat to show date, convert to local date */}
+                      {new Date(order.createdAt).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell className='text-right'>
+                      {formatPrice(order.total)}
+                    </TableCell>
+                    <TableCell className='hidden sm:table-cell'>
+                      {order.status}
+                    </TableCell>
+                    <TableCell className='text-right'>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button size='icon' variant='ghost'>
+                            <MoreHorizontalIcon className='w-4 h-4' />
+                            <span className='sr-only'>Actions</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align='end'>
+                          <DropdownMenuItem>View order</DropdownMenuItem>
+                          <DropdownMenuItem>Customer details</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </>
+                ))}
               </TableRow>
             </TableBody>
           </Table>
