@@ -24,8 +24,25 @@ import {
 import Image from 'next/image';
 import { db } from '@/lib/db';
 
-export default async function Page() {
-  const customers = await db.user.findMany();
+interface PageProps {
+  params: { category: string };
+  searchParams?: {
+    query?: string;
+  };
+}
+
+export default async function Page({ searchParams }: PageProps) {
+  const query = searchParams?.query?.toString();
+
+  const whereCondition = {
+    email: {
+      contains: query,
+    },
+  };
+
+  const customers = await db.user.findMany({
+    where: whereCondition,
+  });
 
   return (
     <>

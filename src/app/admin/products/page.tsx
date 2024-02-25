@@ -1,14 +1,5 @@
 import Link from 'next/link';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenuTrigger,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-  DropdownMenuContent,
-  DropdownMenu,
-} from '@/components/ui/dropdown-menu';
 import {
   TableHead,
   TableRow,
@@ -23,8 +14,24 @@ import { Badge } from '@/components/ui/badge';
 import { formatPrice } from '@/lib/utils';
 import DropdownActions from './dropdown-actions';
 
-export default async function Component() {
+interface PageProps {
+  params: { category: string };
+  searchParams?: {
+    query?: string;
+  };
+}
+
+export default async function Page({ searchParams }: PageProps) {
+  const query = searchParams?.query?.toString();
+
+  const whereCondition = {
+    name: {
+      contains: query,
+    },
+  };
+
   const products = await db.product.findMany({
+    where: whereCondition,
     orderBy: { createdAt: 'desc' },
   });
 

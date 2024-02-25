@@ -45,7 +45,7 @@ export default async function Page() {
   return (
     <>
       {cartItems.length === 0 ? (
-        <div>
+        <div className='h-[80vh] flex flex-col justify-center items-center gap-4'>
           <p>No Item has been found</p>
           <Link href='/products' className='underline'>
             Continue shopping
