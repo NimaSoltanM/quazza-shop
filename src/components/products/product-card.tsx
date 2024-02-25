@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { slugifyString } from '@/lib/utils';
 import { formatPrice } from '@/lib/utils';
+import { AlertCircle } from 'lucide-react';
 
 export default function ProductCard({
   product,
@@ -69,7 +70,13 @@ export default function ProductCard({
             <Badge variant='destructive'>Out of Stock</Badge>
           )}
         </div>
-        {reviews.length ? renderStars() : <p>No ratings yet !</p>}
+        {reviews.length ? (
+          renderStars()
+        ) : (
+          <small className='py-1.5 flex items-center gap-x-2'>
+            <AlertCircle /> No rating yet
+          </small>
+        )}
         <Button
           className='w-full py-2 text-white bg-primary rounded-md hover:bg-primary-dark'
           asChild>

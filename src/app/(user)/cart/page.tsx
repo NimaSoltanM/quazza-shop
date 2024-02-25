@@ -121,9 +121,7 @@ export default async function Page() {
                 </div>
                 <div className='flex justify-between border-t border-gray-200 pt-2 mt-2'>
                   <span className='font-bold'>Total</span>
-                  <span className='font-bold'>
-                    {formatPrice(subTotal + tax + shipping)}
-                  </span>
+                  <span className='font-bold'>{formatPrice(subTotal)}</span>
                 </div>
               </CardContent>
               <CardFooter>

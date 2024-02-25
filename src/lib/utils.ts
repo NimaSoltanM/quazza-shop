@@ -39,3 +39,12 @@ export const generatePriceRanges = (prices: number[]) => {
     },
   ];
 };
+
+export const calculatePrice = (subTotal: number) => {
+  const tax = (5 / 100) * subTotal;
+  const shipping = 2000;
+
+  const res = subTotal + tax + shipping;
+
+  return formatPrice(res);
+};

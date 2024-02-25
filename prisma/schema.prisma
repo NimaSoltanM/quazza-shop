@@ -11,14 +11,19 @@ datasource db {
 }
 
 model User {
-  id            String        @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?       @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
-  role          String        @default("USER") // Use string type for role
+  role          String    @default("USER") // Use string type for role
   accounts      Account[]
-  UserDetails   UserDetails[]
+
+  addresses Address[]
+  cart      Cart[]
+  orders    Order[]
+  wishlist  Wishlist[]
+  reviews   Review[]
 }
 
 model Account {
@@ -40,42 +45,29 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model UserDetails {
-  id        String     @id @default(cuid())
-  user      User       @relation(fields: [userId], references: [id])
-  userId    String
-  addresses Address[]
-  cart      Cart[]
-  orders    Order[]
-  wishlist  Wishlist[]
-  reviews   Review[]
-}
-
 model Address {
-  id            String       @id @default(cuid())
-  userId        String // Relation to User
-  name          String?
-  street1       String
-  street2       String?
-  city          String
-  state         String
-  zip           String
-  country       String
-  UserDetails   UserDetails? @relation(fields: [userDetailsId], references: [id])
-  userDetailsId String?
+  id      String  @id @default(cuid())
+  userId  String // Relation to User
+  name    String?
+  street1 String
+  street2 String?
+  city    String
+  state   String
+  zip     String
+  country String
+  User    User    @relation(fields: [userId], references: [id])
 }
 
 model Order {
-  id            String       @id @default(cuid())
-  userId        String
-  digitId       String
-  items         OrderItem[]
-  total         Int
-  deliveredAt   DateTime?
-  status        String
-  UserDetails   UserDetails? @relation(fields: [userDetailsId], references: [id])
-  userDetailsId String?
-  createdAt     DateTime     @default(now())
+  id          String      @id @default(cuid())
+  userId      String
+  digitId     String
+  items       OrderItem[]
+  total       Int
+  deliveredAt DateTime?
+  status      String
+  createdAt   DateTime    @default(now())
+  User        User        @relation(fields: [userId], references: [id])
 }
 
 model OrderItem {
@@ -89,11 +81,10 @@ model OrderItem {
 }
 
 model Wishlist {
-  id            String         @id @default(cuid())
-  userId        String // Relation to User
-  items         WishlistItem[]
-  UserDetails   UserDetails?   @relation(fields: [userDetailsId], references: [id])
-  userDetailsId String?
+  id     String         @id @default(cuid())
+  userId String // Relation to User
+  items  WishlistItem[]
+  User   User           @relation(fields: [userId], references: [id])
 }
 
 model WishlistItem {
@@ -148,9 +139,8 @@ model Review {
   productId String
   createdAt DateTime @default(now())
 
-  userId        String?
-  UserDetails   UserDetails? @relation(fields: [userDetailsId], references: [id])
-  userDetailsId String?
+  userId String?
+  User   User?   @relation(fields: [userId], references: [id])
 }
 
 model Cart {
@@ -159,9 +149,8 @@ model Cart {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  items         CartItem[]
-  UserDetails   UserDetails? @relation(fields: [userDetailsId], references: [id])
-  userDetailsId String?
+  items CartItem[]
+  User  User?      @relation(fields: [userId], references: [id])
 }
 
 model CartItem {

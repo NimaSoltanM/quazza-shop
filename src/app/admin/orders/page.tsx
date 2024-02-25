@@ -18,7 +18,8 @@ import {
   Table,
 } from '@/components/ui/table';
 import { db } from '@/lib/db';
-import { formatPrice } from '@/lib/utils';
+import { calculatePrice, formatPrice } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
 export default async function Page() {
   async function getUserName(userId: string) {
@@ -51,40 +52,35 @@ export default async function Page() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                {orders.map((order) => (
-                  <>
-                    <TableCell className='font-medium'>
-                      {order.digitId}
-                    </TableCell>
-                    <TableCell>{getUserName(order.userId)}</TableCell>
-                    <TableCell className='hidden md:table-cell'>
-                      {/* use order.createdat to show date, convert to local date */}
-                      {new Date(order.createdAt).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell className='text-right'>
-                      {formatPrice(order.total)}
-                    </TableCell>
-                    <TableCell className='hidden sm:table-cell'>
-                      {order.status}
-                    </TableCell>
-                    <TableCell className='text-right'>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button size='icon' variant='ghost'>
-                            <MoreHorizontalIcon className='w-4 h-4' />
-                            <span className='sr-only'>Actions</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align='end'>
-                          <DropdownMenuItem>View order</DropdownMenuItem>
-                          <DropdownMenuItem>Customer details</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </>
-                ))}
-              </TableRow>
+              {orders.map((order) => (
+                <TableRow key={order.id}>
+                  <TableCell className='font-medium'>{order.digitId}</TableCell>
+                  <TableCell>{getUserName(order.userId)}</TableCell>
+                  <TableCell className='hidden md:table-cell'>
+                    {new Date(order.createdAt).toDateString()}
+                  </TableCell>
+                  <TableCell className='text-right'>
+                    {calculatePrice(order.total)}
+                  </TableCell>
+                  <TableCell className='hidden sm:table-cell'>
+                    <Badge>{order.status}</Badge>
+                  </TableCell>
+                  <TableCell className='text-right'>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button size='icon' variant='ghost'>
+                          <MoreHorizontalIcon className='w-4 h-4' />
+                          <span className='sr-only'>Actions</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align='end'>
+                        <DropdownMenuItem>View order</DropdownMenuItem>
+                        <DropdownMenuItem>Customer details</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </div>
