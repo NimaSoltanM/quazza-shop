@@ -1,15 +1,9 @@
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import {
-  CardTitle,
-  CardDescription,
-  CardContent,
-  Card,
-} from '@/components/ui/card';
 import Image from 'next/image';
 import { db } from '@/lib/db';
 import { slugifyString } from '@/lib/utils';
 import { formatPrice } from '@/lib/utils';
+import { BackgroundGradient } from '@/components/ui/background-gradient';
 
 export default async function FeaturedProducts() {
   const products = await db.product.findMany({
@@ -38,29 +32,37 @@ export default async function FeaturedProducts() {
         </div>
         <div className='mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12'>
           {products.map((prod) => (
-            <Card key={prod.id}>
-              <CardContent className='flex flex-col items-center gap-4'>
+            <div key={prod.id}>
+              <BackgroundGradient className='rounded-[22px] max-w-sm p-4 sm:p-10 bg-white dark:bg-zinc-900'>
                 <Image
-                  alt='Product Image'
-                  className='aspect-square object-cover w-full overflow-hidden'
-                  height='400'
                   src={prod.imageUrl}
-                  width='400'
+                  alt='jordans'
+                  height='300'
+                  width='300'
+                  className='object-contain'
                 />
-                <CardTitle>{prod.name}</CardTitle>
-                <CardDescription>{formatPrice(prod.price)}</CardDescription>
+                <p className='text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200'>
+                  {prod.name}
+                </p>
 
-                <Button asChild>
-                  <Link
-                    className='mt-auto'
-                    href={`/products/${prod.category.name}/${slugifyString(
-                      prod.name
-                    )}`}>
-                    View Details
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
+                <p className='text-sm text-neutral-600 dark:text-neutral-400'>
+                  The Air Jordan 4 Retro Reimagined Bred will release on
+                  Saturday, February 17, 2024.
+                </p>
+
+                <Link
+                  href={`/products/${slugifyString(
+                    prod.category.name
+                  )}/${slugifyString(prod.name)}`}>
+                  <button className='rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs font-bold dark:bg-zinc-800'>
+                    <span>Buy now </span>
+                    <span className='bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white'>
+                      {formatPrice(prod.price)}
+                    </span>
+                  </button>
+                </Link>
+              </BackgroundGradient>
+            </div>
           ))}
         </div>
       </div>

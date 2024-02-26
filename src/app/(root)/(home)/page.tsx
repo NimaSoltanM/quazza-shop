@@ -8,30 +8,29 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import FeaturedProducts from './featured-products';
-import { signOut } from '@/auth/auth';
+import { MainTitle } from './main-title';
+import { BackgroundBeams } from '@/components/ui/background-beams';
 
 export default function Home() {
   return (
     <div key='1' className='flex flex-col min-h-screen'>
       <main className='flex-1'>
         <section className='w-full py-6 sm:py-12 md:py-24 lg:py-32 xl:py-48'>
-          <div className='container px-4 md:px-6'>
-            <div className='grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]'>
-              <div className='flex flex-col justify-center space-y-4'>
-                <div className='space-y-2'>
-                  <h1 className='text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none'>
-                    Discover th e Latest Tech
-                  </h1>
-                  <p className='max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
-                    Explore our collection of cutting-edge devices and gadgets.
-                    Upgrade your tech game today.
-                  </p>
-                </div>
-                <div className='flex flex-col gap-2 min-[400px]:flex-row'>
-                  <button className='inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300'>
-                    Shop Now
-                  </button>
-                </div>
+          <div className='container px-2 md:px-3'>
+            <div className='flex flex-col justify-center space-y-4'>
+              <div className='space-y-6'>
+                <h1 className='text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none'>
+                  <MainTitle />
+                </h1>
+                <p className='text-center  text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
+                  Explore our collection of cutting-edge devices and gadgets.
+                  Upgrade your tech game today.
+                </p>
+              </div>
+              <div className='flex justify-center gap-2 min-[400px]:flex-row'>
+                <button className='inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300'>
+                  Shop Now
+                </button>
               </div>
             </div>
           </div>
@@ -91,7 +90,7 @@ export default function Home() {
           </div>
         </section>
         <FeaturedProducts />
-        <section className='w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800'>
+        {/* <section className='w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800'>
           <div className='container grid items-center justify-center gap-4 px-4 text-center md:px-6'>
             <div className='space-y-3'>
               <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>
@@ -120,7 +119,26 @@ export default function Home() {
               </p>
             </div>
           </div>
-        </section>
+        </section> */}
+        <div className='h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased'>
+          <div className='max-w-2xl mx-auto p-4'>
+            <h1 className='relative z-10 text-lg md:text-7xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold'>
+              Stay Updated
+            </h1>
+            <p className='text-neutral-500 max-w-lg mx-auto my-2 text-sm text-center relative z-10'>
+              Subscribe to our newsletter to receive the latest news and
+              exclusive offers.
+            </p>
+            <div className='flex items-center gap-2 justify-center'>
+              <input
+                type='text'
+                placeholder='hi@manuarora.in'
+                className='rounded-lg border border-neutral-800 focus:ring-2 focus:ring-teal-500  w-full relative z-10 mt-4  bg-neutral-950 placeholder:text-neutral-700 p-2 text-white'
+              />
+            </div>
+          </div>
+          <BackgroundBeams />
+        </div>
       </main>
       <footer className='flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t'>
         <p className='text-xs text-gray-500 dark:text-gray-400'>
