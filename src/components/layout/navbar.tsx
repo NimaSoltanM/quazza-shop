@@ -1,7 +1,7 @@
 import { SheetTrigger, SheetContent, Sheet } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import UserButton from '../auth components/user-button';
+import UserButton from '../auth/user-button';
 
 export default async function Navbar() {
   return (

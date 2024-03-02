@@ -1,7 +1,7 @@
 import { db } from '@/lib/db';
-import ProductCard from '@/components/products/product-card';
-import FilterSection from '@/components/products/filter/filter-section';
-import MobileFilterSection from '@/components/products/filter/mobile-filter-section';
+import ProductCard from '@/app/(root)/products/_components/product-card';
+import FilterSection from '@/app/(root)/products/_components/filter/filter-section';
+import MobileFilterSection from '@/app/(root)/products/_components/filter/mobile-filter-section';
 import { deSlugifyString, generatePriceRanges } from '@/lib/utils';
 import { Prisma } from '@prisma/client';
 

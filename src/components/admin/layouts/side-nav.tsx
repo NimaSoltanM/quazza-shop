@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { Badge } from '@/components/ui/badge';
 import { links } from '@/app/constants/side-nav';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';

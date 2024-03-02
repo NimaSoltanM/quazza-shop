@@ -7,6 +7,9 @@ export function MainTitle() {
       text: 'Discover',
     },
     {
+      text: 'The',
+    },
+    {
       text: 'Latest',
     },
     {

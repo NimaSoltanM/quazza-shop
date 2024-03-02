@@ -1,6 +1,6 @@
 'use client';
 
-import { signOutAction } from './auth-comps-actions';
+import { signOutAction } from '@/actions/auth/signOutAction';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 export default function SignOutOption() {

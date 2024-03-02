@@ -1,12 +1,15 @@
 import { db } from '@/lib/db';
 import Image from 'next/image';
-import CommentSection from '@/components/products/comment/comment-section';
+import CommentSection from '@/app/(root)/products/_components/comment/comment-section';
 import { Button } from '@/components/ui/button';
 import { formatPrice } from '@/lib/utils';
 import { auth } from '@/auth/auth';
 import CartBtn from './cart-btn';
+import StarRating from '@/components/shared/start-rating';
+import { Label } from '@/components/ui/label';
+import { RadioGroupItem, RadioGroup } from '@/components/ui/radio-group'; // Import the StarRating component
 
-export default async function Component({
+export default async function Page({
   params: { productName },
 }: {
   params: { productName: string };
@@ -32,7 +35,6 @@ export default async function Component({
         </div>
       </main>
     );
-
   return (
     <main key='1' className='px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8'>
       <div className='grid md:grid-cols-2 gap-6 lg:gap-12 items-start'>
@@ -50,53 +52,65 @@ export default async function Component({
         <div className='grid gap-4 md:gap-10 items-start'>
           <div className='grid gap-4'>
             <h1 className='font-bold text-3xl lg:text-4xl'>{product.name}</h1>
-            <div>
-              <p>{product.description}</p>
-            </div>
-            <div className='flex items-center gap-4'>
-              <div className='flex items-center gap-0.5'>
-                <StarIcon className='w-5 h-5 fill-primary' />
-                <StarIcon className='w-5 h-5 fill-primary' />
-                <StarIcon className='w-5 h-5 fill-primary' />
-                <StarIcon className='w-5 h-5 fill-muted stroke-muted-foreground' />
-                <StarIcon className='w-5 h-5 fill-muted stroke-muted-foreground' />
+            <div>{product.description}</div>
+            <div className='flex items-around'>
+              <StarRating
+                ratings={product.reviews.map((review) => review.rating)}
+              />
+              <div className='text-4xl font-bold ml-auto'>
+                {formatPrice(product.price)}
               </div>
-              {product.inStock && (
-                <div className='text-4xl font-bold ml-auto'>
-                  {formatPrice(product.price)}
-                </div>
+            </div>
+            <div className='flex flex-col gap-2 lg:flex-row'>
+              {product.inStock ? (
+                <CartBtn productId={product.id} session={session} />
+              ) : (
+                <Button
+                  disabled
+                  size='lg'
+                  className='w-full cursor-not-allowed'>
+                  Out of Stock for now
+                </Button>
               )}
+              <Button size='lg' variant='outline'>
+                Add to wishlist
+              </Button>
+              <Button size='lg' variant='outline'>
+                Share
+              </Button>
+            </div>
+            <div className='grid gap-2'>
+              <Label className='text-base' htmlFor='color'>
+                Color
+              </Label>
+              <RadioGroup
+                className='flex items-center gap-2'
+                defaultValue='black'
+                id='color'>
+                <Label
+                  className='border cursor-pointer rounded-md p-2 flex items-center gap-2 [&:has(:checked)]:bg-gray-100 dark:[&:has(:checked)]:bg-gray-800'
+                  htmlFor='color-black'>
+                  <RadioGroupItem id='color-black' value='black' />
+                  Black
+                </Label>
+                <Label
+                  className='border cursor-pointer rounded-md p-2 flex items-center gap-2 [&:has(:checked)]:bg-gray-100 dark:[&:has(:checked)]:bg-gray-800'
+                  htmlFor='color-white'>
+                  <RadioGroupItem id='color-white' value='white' />
+                  White
+                </Label>
+                <Label
+                  className='border cursor-pointer rounded-md p-2 flex items-center gap-2 [&:has(:checked)]:bg-gray-100 dark:[&:has(:checked)]:bg-gray-800'
+                  htmlFor='color-blue'>
+                  <RadioGroupItem id='color-blue' value='blue' />
+                  Blue
+                </Label>
+              </RadioGroup>
             </div>
           </div>
-
-          {product.inStock ? (
-            <CartBtn productId={product.id} session={session} />
-          ) : (
-            <Button disabled size='lg' className='w-full cursor-not-allowed'>
-              Out of Stock for now
-            </Button>
-          )}
         </div>
       </div>
       <CommentSection reviews={product.reviews} productId={product.id} />
     </main>
-  );
-}
-
-function StarIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns='http://www.w3.org/2000/svg'
-      width='24'
-      height='24'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='2'
-      strokeLinecap='round'
-      strokeLinejoin='round'>
-      <polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2' />
-    </svg>
   );
 }
