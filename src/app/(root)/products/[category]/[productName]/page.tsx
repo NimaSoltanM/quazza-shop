@@ -7,7 +7,10 @@ import { auth } from '@/auth/auth';
 import CartBtn from './cart-btn';
 import StarRating from '@/components/shared/start-rating';
 import { Label } from '@/components/ui/label';
-import { RadioGroupItem, RadioGroup } from '@/components/ui/radio-group'; // Import the StarRating component
+import { RadioGroupItem, RadioGroup } from '@/components/ui/radio-group'; // Import the StarRating component4
+import SubmitButton from '@/components/shared/submit-btn';
+import { getCurrentUser } from '@/lib/auth';
+import WishlistButton from './wishlist-button';
 
 export default async function Page({
   params: { productName },
@@ -72,9 +75,7 @@ export default async function Page({
                   Out of Stock for now
                 </Button>
               )}
-              <Button size='lg' variant='outline'>
-                Add to wishlist
-              </Button>
+              <WishlistButton productId={product.id} session={session} />
               <Button size='lg' variant='outline'>
                 Share
               </Button>

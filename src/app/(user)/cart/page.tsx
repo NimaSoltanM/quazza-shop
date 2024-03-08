@@ -27,13 +27,20 @@ import { checkoutAction } from '@/actions/cart/checkout';
 export default async function Page() {
   const userId = await getCurrentUserId();
 
-  const cart = await db.cart.findFirst({ where: { userId: userId } });
-  const cartId = cart?.id;
-
-  const cartItems = await db.cartItem.findMany({
-    where: { cartId },
-    include: { product: true },
+  const cart = await db.cart.findFirst({
+    where: {
+      userId,
+    },
+    include: {
+      items: {
+        include: {
+          product: true,
+        },
+      },
+    },
   });
+
+  const cartItems = cart?.items || [];
 
   const subTotal = cartItems.reduce((acc, item) => {
     return acc + item.product.price * item.quantity;
@@ -121,7 +128,9 @@ export default async function Page() {
                 </div>
                 <div className='flex justify-between border-t border-gray-200 pt-2 mt-2'>
                   <span className='font-bold'>Total</span>
-                  <span className='font-bold'>{formatPrice(subTotal)}</span>
+                  <span className='font-bold'>
+                    {formatPrice(subTotal + tax + shipping)}
+                  </span>
                 </div>
               </CardContent>
               <CardFooter>

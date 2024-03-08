@@ -1,11 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { links } from '@/app/constants/side-nav';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 
-export default function SideNav() {
+interface Link {
+  name: string;
+  icon: React.ReactNode;
+  href: string;
+}
+
+export default function SideNav({ links }: { links: Link[] }) {
   const pathName = usePathname();
 
   return (
@@ -31,8 +36,6 @@ export default function SideNav() {
                 )}>
                 {link.icon}
                 {link.name}
-                {link.count}
-                {link.count}
               </Link>
             ))}
           </nav>

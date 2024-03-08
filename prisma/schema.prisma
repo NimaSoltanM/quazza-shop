@@ -88,13 +88,14 @@ model Wishlist {
 }
 
 model WishlistItem {
-  id         String    @id @default(cuid())
-  productId  String // Relation to Product
-  name       String
-  price      Int
-  addedAt    DateTime
-  wishList   Wishlist? @relation(fields: [wishlistId], references: [id])
-  wishlistId String?
+  id         String   @id @default(cuid())
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  String
+  addedAt    DateTime @default(now())
+  wishlist   Wishlist @relation(fields: [wishlistId], references: [id])
+  wishlistId String
+
+  @@unique([productId, wishlistId])
 }
 
 model Category {
@@ -118,12 +119,13 @@ model Product {
   category    Category @relation(fields: [categoryId], references: [id])
   categoryId  String
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  inStock   Boolean
-  shipping  String?
-  reviews   Review[]
-  CartItem  CartItem[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  inStock      Boolean
+  shipping     String?
+  reviews      Review[]
+  CartItem     CartItem[]
+  WishlistItem WishlistItem[]
 }
 
 model Review {

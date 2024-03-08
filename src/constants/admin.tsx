@@ -5,7 +5,30 @@ interface Link {
   count?: number;
 }
 
-export const links: Link[] = [
+export const admin_sidebar_links_mobile: Link[] = [
+  {
+    name: 'Home',
+    icon: <HomeIcon className='h-4 w-4' />,
+    href: '/admin',
+  },
+  {
+    name: 'Orders',
+    icon: <ShoppingCartIcon className='h-4 w-4' />,
+    href: '/admin/orders',
+  },
+  {
+    name: 'Products',
+    icon: <PackageIcon className='h-4 w-4' />,
+    href: '/admin/products',
+  },
+  {
+    name: 'Customers',
+    icon: <UsersIcon className='h-4 w-4' />,
+    href: '/admin/customers',
+  },
+];
+
+export const admin_sidebar_links: Link[] = [
   {
     name: 'Home',
     icon: <HomeIcon className='h-4 w-4' />,
