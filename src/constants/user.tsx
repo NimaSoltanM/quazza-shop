@@ -2,54 +2,54 @@ export const user_sidebar_links = [
   {
     name: 'Orders',
     icon: <ShoppingCartIcon className='h-4 w-4' />,
-    href: '/profile/orders',
+    href: '/user/orders',
   },
   {
     name: 'Wishlist',
     icon: <HeartIcon className='h-4 w-4' />,
-    href: '/profile/wishlist',
+    href: '/user/wishlist',
   },
   {
     name: 'Comments',
     icon: <MessageSquareIcon className='h-4 w-4' />,
-    href: '/profile/comments',
+    href: '/user/comments',
   },
   {
     name: 'Addresses',
     icon: <MapPinIcon className='h-4 w-4' />,
-    href: '/profile/addresses',
+    href: '/user/addresses',
   },
   {
     name: 'Settings',
     icon: <SettingsIcon className='h-4 w-4' />,
-    href: '/profile/settings',
+    href: '/user/settings',
   },
 ];
 
 export const user_sidebar_links_mobile = [
   {
     name: 'Orders',
-    href: '/profile/orders',
+    href: '/user/orders',
     icon: <ShoppingCartIcon className='h-4 w-4' />,
   },
   {
     name: 'Wishlist',
-    href: '/profile/wishlist',
+    href: '/user/wishlist',
     icon: <HeartIcon className='h-4 w-4' />,
   },
   {
     name: 'Comments',
-    href: '/profile/comments',
+    href: '/user/comments',
     icon: <MessageSquareIcon className='h-4 w-4' />,
   },
   {
     name: 'Addresses',
-    href: '/profile/addresses',
+    href: '/user/addresses',
     icon: <MapPinIcon className='h-4 w-4' />,
   },
   {
     name: 'Settings',
-    href: '/profile/settings',
+    href: '/user/settings',
     icon: <SettingsIcon className='h-4 w-4' />,
   },
 ];

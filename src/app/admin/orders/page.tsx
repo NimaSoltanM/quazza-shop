@@ -37,55 +37,49 @@ export default async function Page() {
   });
 
   return (
-    <div className='flex flex-col'>
-      <main className='flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6'>
-        <div className='border shadow-sm rounded-lg p-2'>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className='w-[100px]'>Order</TableHead>
-                <TableHead className='min-w-[150px]'>Customer</TableHead>
-                <TableHead className='hidden md:table-cell'>Date</TableHead>
-                <TableHead className='text-right'>Total</TableHead>
-                <TableHead className='hidden sm:table-cell'>Status</TableHead>
-                <TableHead className='text-right'>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {orders.map((order) => (
-                <TableRow key={order.id}>
-                  <TableCell className='font-medium'>{order.digitId}</TableCell>
-                  <TableCell>{getUserName(order.userId)}</TableCell>
-                  <TableCell className='hidden md:table-cell'>
-                    {new Date(order.createdAt).toDateString()}
-                  </TableCell>
-                  <TableCell className='text-right'>
-                    {calculatePrice(order.total)}
-                  </TableCell>
-                  <TableCell className='hidden sm:table-cell'>
-                    <Badge>{order.status}</Badge>
-                  </TableCell>
-                  <TableCell className='text-right'>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button size='icon' variant='ghost'>
-                          <MoreHorizontalIcon className='w-4 h-4' />
-                          <span className='sr-only'>Actions</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align='end'>
-                        <DropdownMenuItem>View order</DropdownMenuItem>
-                        <DropdownMenuItem>Customer details</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      </main>
-    </div>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className='w-[100px]'>Order</TableHead>
+          <TableHead className='min-w-[150px]'>Customer</TableHead>
+          <TableHead className='hidden md:table-cell'>Date</TableHead>
+          <TableHead className='text-right'>Total</TableHead>
+          <TableHead className='hidden sm:table-cell'>Status</TableHead>
+          <TableHead className='text-right'>Actions</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {orders.map((order) => (
+          <TableRow key={order.id}>
+            <TableCell className='font-medium'>{order.digitId}</TableCell>
+            <TableCell>{getUserName(order.userId)}</TableCell>
+            <TableCell className='hidden md:table-cell'>
+              {new Date(order.createdAt).toDateString()}
+            </TableCell>
+            <TableCell className='text-right'>
+              {calculatePrice(order.total)}
+            </TableCell>
+            <TableCell className='hidden sm:table-cell'>
+              <Badge>{order.status}</Badge>
+            </TableCell>
+            <TableCell className='text-right'>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size='icon' variant='ghost'>
+                    <MoreHorizontalIcon className='w-4 h-4' />
+                    <span className='sr-only'>Actions</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align='end'>
+                  <DropdownMenuItem>View order</DropdownMenuItem>
+                  <DropdownMenuItem>Customer details</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
 

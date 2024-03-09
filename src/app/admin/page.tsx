@@ -10,100 +10,86 @@ import { Input } from '@/components/ui/input';
 export default function Page() {
   return (
     <div className='flex flex-col'>
-      <main className='flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6'>
-        <div className='border shadow-sm rounded-lg p-4'>
-          <h1 className='text-2xl font-semibold'>
-            Welcome to the Admin Portal
-          </h1>
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4'>
-            <div className='bg-white rounded-lg p-4 shadow-md'>
-              <h2 className='text-lg font-semibold'>Number of Products</h2>
-              <p className='text-gray-500'>500</p>
-            </div>
-            <div className='bg-white rounded-lg p-4 shadow-md'>
-              <h2 className='text-lg font-semibold'>Number of Orders</h2>
-              <p className='text-gray-500'>120</p>
-            </div>
-            <div className='bg-white rounded-lg p-4 shadow-md'>
-              <h2 className='text-lg font-semibold'>Number of Customers</h2>
-              <p className='text-gray-500'>250</p>
-            </div>
-            <div className='bg-white rounded-lg p-4 shadow-md'>
-              <h2 className='text-lg font-semibold'>Revenue for Today</h2>
-              <p className='text-gray-500'>$1500</p>
-            </div>
+      <h1 className='text-2xl font-semibold'>Welcome to the Admin Portal</h1>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4'>
+        <div className='bg-white rounded-lg p-4 shadow-md'>
+          <h2 className='text-lg font-semibold'>Number of Products</h2>
+          <p className='text-gray-500'>500</p>
+        </div>
+        <div className='bg-white rounded-lg p-4 shadow-md'>
+          <h2 className='text-lg font-semibold'>Number of Orders</h2>
+          <p className='text-gray-500'>120</p>
+        </div>
+        <div className='bg-white rounded-lg p-4 shadow-md'>
+          <h2 className='text-lg font-semibold'>Number of Customers</h2>
+          <p className='text-gray-500'>250</p>
+        </div>
+        <div className='bg-white rounded-lg p-4 shadow-md'>
+          <h2 className='text-lg font-semibold'>Revenue for Today</h2>
+          <p className='text-gray-500'>$1500</p>
+        </div>
+      </div>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8'>
+        <div className='bg-white rounded-lg p-4 shadow-md'>
+          <h2 className='text-lg font-semibold'>Orders Trend</h2>
+          <TimeseriesChart className='w-full aspect-[4/3]' />
+        </div>
+        <div className='bg-white rounded-lg p-4 shadow-md'>
+          <h2 className='text-lg font-semibold'>Revenue Trend</h2>
+          <BarChart className='w-full aspect-[4/3]' />
+        </div>
+        <div className='bg-white rounded-lg p-4 shadow-md'>
+          <h2 className='text-lg font-semibold'>Traffic Trend</h2>
+          <BarChart className='w-full aspect-[4/3]' />
+        </div>
+        <div className='bg-white rounded-lg p-4 shadow-md'>
+          <h2 className='text-lg font-semibold'>Popular Products</h2>
+          <BarChart className='w-full aspect-[4/3]' />
+        </div>
+      </div>
+      <div className='mt-8'>
+        <h2 className='text-lg font-semibold'>Recent Activity</h2>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4'>
+          <div className='bg-white rounded-lg p-4 shadow-md'>
+            <h3 className='text-lg font-semibold'>Recent Orders</h3>
+            <p className='text-gray-500'>Click to view details</p>
           </div>
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8'>
-            <div className='bg-white rounded-lg p-4 shadow-md'>
-              <h2 className='text-lg font-semibold'>Orders Trend</h2>
-              <TimeseriesChart className='w-full aspect-[4/3]' />
-            </div>
-            <div className='bg-white rounded-lg p-4 shadow-md'>
-              <h2 className='text-lg font-semibold'>Revenue Trend</h2>
-              <BarChart className='w-full aspect-[4/3]' />
-            </div>
-            <div className='bg-white rounded-lg p-4 shadow-md'>
-              <h2 className='text-lg font-semibold'>Traffic Trend</h2>
-              <BarChart className='w-full aspect-[4/3]' />
-            </div>
-            <div className='bg-white rounded-lg p-4 shadow-md'>
-              <h2 className='text-lg font-semibold'>Popular Products</h2>
-              <BarChart className='w-full aspect-[4/3]' />
-            </div>
+          <div className='bg-white rounded-lg p-4 shadow-md'>
+            <h3 className='text-lg font-semibold'>Recent Customers</h3>
+            <p className='text-gray-500'>Click to view profile</p>
           </div>
-          <div className='mt-8'>
-            <h2 className='text-lg font-semibold'>Recent Activity</h2>
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4'>
-              <div className='bg-white rounded-lg p-4 shadow-md'>
-                <h3 className='text-lg font-semibold'>Recent Orders</h3>
-                <p className='text-gray-500'>Click to view details</p>
-              </div>
-              <div className='bg-white rounded-lg p-4 shadow-md'>
-                <h3 className='text-lg font-semibold'>Recent Customers</h3>
-                <p className='text-gray-500'>Click to view profile</p>
-              </div>
-              <div className='bg-white rounded-lg p-4 shadow-md'>
-                <h3 className='text-lg font-semibold'>
-                  Recent Reviews/Feedback
-                </h3>
-                <p className='text-gray-500'>Check latest feedback</p>
-              </div>
-            </div>
-          </div>
-          <div className='mt-8'>
-            <h2 className='text-lg font-semibold'>Quick Actions</h2>
-            <div className='flex gap-4 mt-4'>
-              <Button>Add New Product</Button>
-              <Button>Add New Order</Button>
-              <Button>Add New Customer</Button>
-            </div>
-          </div>
-          <div className='mt-8'>
-            <h2 className='text-lg font-semibold'>Search Bar</h2>
-            <Input
-              className='w-full mt-2'
-              placeholder='Search...'
-              type='search'
-            />
-          </div>
-          <div className='mt-8'>
-            <h2 className='text-lg font-semibold'>Links</h2>
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4'>
-              <Link href='#'>View All Products</Link>
-              <Link href='#'>View All Orders</Link>
-              <Link href='#'>View All Customers</Link>
-            </div>
-          </div>
-          <div className='mt-8'>
-            <h2 className='text-lg font-semibold'>Announcements</h2>
-            <div className='bg-white rounded-lg p-4 shadow-md mt-4'>
-              <p className='text-gray-500'>
-                No new announcements at the moment.
-              </p>
-            </div>
+          <div className='bg-white rounded-lg p-4 shadow-md'>
+            <h3 className='text-lg font-semibold'>Recent Reviews/Feedback</h3>
+            <p className='text-gray-500'>Check latest feedback</p>
           </div>
         </div>
-      </main>
+      </div>
+      <div className='mt-8'>
+        <h2 className='text-lg font-semibold'>Quick Actions</h2>
+        <div className='flex gap-4 mt-4'>
+          <Button>Add New Product</Button>
+          <Button>Add New Order</Button>
+          <Button>Add New Customer</Button>
+        </div>
+      </div>
+      <div className='mt-8'>
+        <h2 className='text-lg font-semibold'>Search Bar</h2>
+        <Input className='w-full mt-2' placeholder='Search...' type='search' />
+      </div>
+      <div className='mt-8'>
+        <h2 className='text-lg font-semibold'>Links</h2>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4'>
+          <Link href='#'>View All Products</Link>
+          <Link href='#'>View All Orders</Link>
+          <Link href='#'>View All Customers</Link>
+        </div>
+      </div>
+      <div className='mt-8'>
+        <h2 className='text-lg font-semibold'>Announcements</h2>
+        <div className='bg-white rounded-lg p-4 shadow-md mt-4'>
+          <p className='text-gray-500'>No new announcements at the moment.</p>
+        </div>
+      </div>
     </div>
   );
 }

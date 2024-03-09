@@ -25,7 +25,7 @@ export default async function UserButton() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <Link href='/profile'>
+          <Link href='/user'>
             <DropdownMenuItem>
               <UserIcon className='h-5 w-5 mr-2' />
               Profile

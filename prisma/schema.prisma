@@ -47,7 +47,7 @@ model Account {
 
 model Address {
   id      String  @id @default(cuid())
-  userId  String // Relation to User
+  userId  String
   name    String?
   street1 String
   street2 String?

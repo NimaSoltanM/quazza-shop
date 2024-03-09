@@ -2,15 +2,6 @@ import { ReactNode } from 'react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { MenuIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenuTrigger,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-  DropdownMenuContent,
-  DropdownMenu,
-} from '@/components/ui/dropdown-menu';
-import Image from 'next/image';
 import Link from 'next/link';
 
 interface NavLink {

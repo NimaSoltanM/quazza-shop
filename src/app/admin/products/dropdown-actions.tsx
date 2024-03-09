@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { TableCell } from '@/components/ui/table';
 
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { toast } from 'sonner';
 
 export default function DropdownActions({ productId }: { productId: string }) {
