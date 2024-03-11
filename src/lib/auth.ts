@@ -12,14 +12,15 @@ export const getCurrentUserId = async () => {
   return id;
 };
 
-export const getCurrentUser = async () => {
+export const getCurrentUserRole = async () => {
   'use server';
 
   const session = await auth();
 
   if (!session) return;
 
-  const user = session.user;
+  // @ts-ignore
+  const role = session.user?.role;
 
-  return user;
+  return role;
 };

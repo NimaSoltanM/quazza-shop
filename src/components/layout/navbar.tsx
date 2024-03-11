@@ -2,8 +2,12 @@ import { SheetTrigger, SheetContent, Sheet } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import UserButton from '../auth/user-button';
+import { getCurrentUserRole } from '@/lib/auth';
+import { LayoutDashboard } from 'lucide-react';
 
 export default async function Navbar() {
+  const userRole = await getCurrentUserRole();
+
   return (
     <header className='flex h-20 w-full shrink-0 items-center px-4 md:px-10 border-b'>
       <Sheet>
@@ -62,8 +66,20 @@ export default async function Navbar() {
           </Link>
         </nav>
       </div>
-      <div className='ml-auto w-[150px]'>
-        <UserButton />
+      <div className='ml-auto'>
+        {userRole === 'ADMIN' ? (
+          <div className='flex gap-x-3'>
+            <Button variant='link' asChild>
+              <Link href='/admin'>
+                <LayoutDashboard className='mr-2 h-4 w-4' />
+                Admin Dashboard
+              </Link>
+            </Button>
+            <UserButton />
+          </div>
+        ) : (
+          <UserButton />
+        )}
       </div>
     </header>
   );

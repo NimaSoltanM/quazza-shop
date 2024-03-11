@@ -26,6 +26,15 @@ export const {
         session.user.id = token.sub;
       }
 
+      console.log({
+        sessionToken: token,
+      });
+
+      if (token.role && session.user) {
+        // @ts-ignore
+        session.user.role = token.role;
+      }
+
       return session;
     },
     async jwt({ token }) {
