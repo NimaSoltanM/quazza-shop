@@ -41,7 +41,7 @@ export default function DropdownActions({ productId }: { productId: string }) {
           <DropdownMenuItem
             onClick={() => {
               startTransition(async () => {
-                await changeProductStatusAction(productId);
+                const res = await changeProductStatusAction(productId);
                 toast.success('Product Status Changed ');
               });
             }}>

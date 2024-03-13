@@ -41,6 +41,7 @@ export default function AdminSearchBar() {
         <Input
           className='pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] bg-white'
           placeholder={generatePlaceHolder()}
+          defaultValue={searchParams.get('query')?.toString() || ''}
           onChange={(e) => {
             handleSearch(e.target.value);
           }}

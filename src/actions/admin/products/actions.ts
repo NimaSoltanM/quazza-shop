@@ -23,7 +23,7 @@ export const changeProductStatusAction = async (productId: string) => {
       },
     });
   } else {
-    throw new Error('Product not found');
+    return { error: 'Product not found' };
   }
 
   revalidatePath('/admin/product');
