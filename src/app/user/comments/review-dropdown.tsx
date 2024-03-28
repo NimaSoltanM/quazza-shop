@@ -1,8 +1,7 @@
 'use client';
 
-import { removeUserReview } from '@/actions/user/reviews';
+import { removeUserReview } from '../_actions/reviews';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { revalidatePath } from 'next/cache';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
 

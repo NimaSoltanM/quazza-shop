@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Trash } from 'lucide-react';
 import { useTransition } from 'react';
-import { deleteCartItemAction } from '@/actions/cart/change-quantity';
+import { deleteCartItemAction } from './_actions/change-quantity';
 
 export default function RemoveBtn({ id }: { id: string }) {
   const [isPending, startTransition] = useTransition();

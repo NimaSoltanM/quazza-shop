@@ -17,12 +17,22 @@ import { db } from '@/lib/db';
 import SubmitButton from '@/components/shared/submit-btn';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { getCurrentUserId } from '@/lib/auth';
 
 export default async function Page() {
   const categories = await db.category.findMany();
 
   const addProduct = async (formData: FormData) => {
     'use server';
+
+    const userId = await getCurrentUserId();
+
+    const user = await db.user.findUnique({ where: { id: userId } });
+
+    if (user?.role !== 'ADMIN') {
+      console.log('Nah bro, you are hacking fam');
+      return;
+    }
 
     const name = formData.get('name')?.toString();
     const description = formData.get('description')?.toString();

@@ -22,7 +22,7 @@ import { Button } from '@/components/ui/button';
 import QuantitySelect from './quantity-select';
 import RemoveBtn from './remove-btn';
 import { formatPrice } from '@/lib/utils';
-import { checkoutAction } from '@/actions/cart/checkout';
+import { checkoutAction } from './_actions/checkout';
 
 export default async function Page() {
   const userId = await getCurrentUserId();

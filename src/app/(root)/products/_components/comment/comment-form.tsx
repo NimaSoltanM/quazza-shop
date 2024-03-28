@@ -7,7 +7,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { revalidatePath } from 'next/cache';
-import { addReviewAction } from '@/actions/products/review-actions';
+import { addReviewAction } from '../../_actions/review-actions';
 
 export default async function CommentForm({
   productId,
