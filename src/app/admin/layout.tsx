@@ -6,6 +6,8 @@ import {
 } from '@/constants/admin';
 import AdminSearchBar from './_components/layouts/admin-search-bar';
 
+export const dynamic = 'force-dynamic';
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className='grid min-h-screen bg-gray-100/40 lg:grid-cols-[280px_1fr] dark:bg-gray-800/40'>

@@ -5,6 +5,7 @@ import { Button } from '../ui/button';
 import { ComponentProps } from 'react';
 import { useFormStatus } from 'react-dom';
 
+//make it use component props
 type SubmitButtonProps = {
   children: React.ReactNode;
   className?: string;

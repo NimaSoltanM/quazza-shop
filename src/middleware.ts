@@ -6,6 +6,7 @@ import {
   apiAuthPrefix,
   publicRoutes,
 } from '@/auth/routes';
+import { getCurrentUserRole } from './lib/auth';
 
 const { auth } = NextAuth(authConfig);
 
@@ -18,6 +19,7 @@ export default auth((req) => {
     const regex = new RegExp(`^${pattern.replace('*', '.*')}$`);
     return regex.test(nextUrl.pathname);
   });
+  const isAdminRoute = nextUrl.pathname.startsWith('/admin');
   if (isApiAuthRoute) {
     return null;
   }
