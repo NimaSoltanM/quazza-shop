@@ -32,5 +32,11 @@ export default async function Page({ searchParams }: PageProps) {
 
   const modifiedCustomers = await Promise.all(modifiedCustomersPromises);
 
-  return <DataTable columns={customerColumns} data={modifiedCustomers} />;
+  return (
+    <DataTable
+      columns={customerColumns}
+      data={modifiedCustomers}
+      colSearch='email'
+    />
+  );
 }

@@ -28,11 +28,13 @@ import { Input } from './input';
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  colSearch: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  colSearch,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -52,14 +54,21 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  function convertCamelCaseToNormal(text: string) {
+    return text
+      .replace(/([A-Z])/g, ' $1')
+      .trim()
+      .toLowerCase();
+  }
+
   return (
     <div>
       <div className='flex items-center py-4'>
         <Input
-          placeholder='Filter emails...'
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
+          placeholder={`Search by: ${convertCamelCaseToNormal(colSearch)}`}
+          value={(table.getColumn(colSearch)?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('email')?.setFilterValue(event.target.value)
+            table.getColumn(colSearch)?.setFilterValue(event.target.value)
           }
           className='max-w-sm'
         />
