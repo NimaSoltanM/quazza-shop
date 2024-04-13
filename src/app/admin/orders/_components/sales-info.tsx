@@ -15,7 +15,6 @@ import {
 import { formatPrice } from '@/lib/utils';
 
 export default async function SalesInfo() {
-  //TODO: USE PROMISE ALL
   const { thisWeekTotal, weekPercentChange } = await getThisWeekOrdersValues();
   const { thisMonthTotal, monthPercentChange } =
     await getThisMonthOrdersValues();

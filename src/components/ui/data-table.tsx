@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/table';
 import React, { useState } from 'react';
 import { Input } from './input';
+import { onCellSelect } from '@/lib/utils';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

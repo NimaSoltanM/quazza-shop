@@ -48,3 +48,7 @@ export const calculatePrice = (subTotal: number) => {
 
   return formatPrice(res);
 };
+
+export const onCellSelect = (id: string) => {
+  alert(`Selected ${id}`);
+};
