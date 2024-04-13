@@ -30,9 +30,8 @@ import {
 } from '@/components/ui/pagination';
 import { Separator } from '@/components/ui/separator';
 import { db } from '@/lib/db';
-import { formatPrice } from '@/lib/utils';
-import { getOrderInfoAction } from './getOrderInfoAction';
-import { useSearchParams } from 'next/navigation';
+import { calculateTotalWithTaxAndShipping, formatPrice } from '@/lib/utils';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default async function OrderDetails({ orderId }: { orderId: string }) {
   //TODO: make it client side
@@ -51,10 +50,28 @@ export default async function OrderDetails({ orderId }: { orderId: string }) {
     include: { items: true },
   });
 
+  const user = await db.user.findFirst({
+    where: { id: order?.userId },
+    include: { addresses: true },
+  });
+
+  let orderItemsPricesAndQuantity: { price: number; quantity: number }[] = [];
+
+  if (order && order.items) {
+    orderItemsPricesAndQuantity = order.items.map((item) => ({
+      price: item.price,
+      quantity: item.quantity,
+    }));
+  }
+
+  const { subTotal, total, tax, shipping } = calculateTotalWithTaxAndShipping(
+    orderItemsPricesAndQuantity
+  );
+
   return (
     <div>
       <Card className='overflow-hidden' x-chunk='dashboard-05-chunk-4'>
-        <CardHeader className='flex flex-row items-start bg-muted/50'>
+        <CardHeader className='flex flex-row items-center bg-muted/50'>
           <div className='grid gap-0.5'>
             <CardTitle className='group flex items-center gap-2 text-lg'>
               Order {order?.digitId}
@@ -66,15 +83,8 @@ export default async function OrderDetails({ orderId }: { orderId: string }) {
                 <span className='sr-only'>Copy Order ID</span>
               </Button>
             </CardTitle>
-            <CardDescription>Date: November 23, 2023</CardDescription>
           </div>
           <div className='ml-auto flex items-center gap-1'>
-            <Button size='sm' variant='outline' className='h-8 gap-1'>
-              <Truck className='h-3.5 w-3.5' />
-              <span className='lg:sr-only xl:not-sr-only xl:whitespace-nowrap'>
-                Track Order
-              </span>
-            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button size='icon' variant='outline' className='h-8 w-8'>
@@ -108,57 +118,55 @@ export default async function OrderDetails({ orderId }: { orderId: string }) {
             <ul className='grid gap-3'>
               <li className='flex items-center justify-between'>
                 <span className='text-muted-foreground'>Subtotal</span>
-                <span>$299.00</span>
+                <span>{formatPrice(subTotal)}</span>
               </li>
               <li className='flex items-center justify-between'>
                 <span className='text-muted-foreground'>Shipping</span>
-                <span>$5.00</span>
+                <span>{formatPrice(shipping)}</span>
               </li>
               <li className='flex items-center justify-between'>
                 <span className='text-muted-foreground'>Tax</span>
-                <span>$25.00</span>
+                <span>{formatPrice(tax)}</span>
               </li>
               <li className='flex items-center justify-between font-semibold'>
                 <span className='text-muted-foreground'>Total</span>
-                <span>$329.00</span>
+                <span>{formatPrice(total)}</span>
               </li>
             </ul>
           </div>
           <Separator className='my-4' />
-          <div className='grid grid-cols-2 gap-4'>
-            <div className='grid gap-3'>
-              <div className='font-semibold'>Shipping Information</div>
-              <address className='grid gap-0.5 not-italic text-muted-foreground'>
-                <span>Liam Johnson</span>
-                <span>1234 Main St.</span>
-                <span>Anytown, CA 12345</span>
+          <ScrollArea>
+            <div className='font-semibold mb-4'>Shipping Information</div>
+            <div className='h-[100px] w-[350px] rounded-md'>
+              <address className='flex flex-col gap-y-2 not-italic text-muted-foreground'>
+                <span>{user?.name}</span>
+                <span>zip code: {user?.addresses[0].zip}</span>
+                <span>street 1: {user?.addresses[0].street1}</span>
+                <span>street 2: {user?.addresses[0].street2}</span>
+                <span>city: {user?.addresses[0].city}</span>
+                <span>state: {user?.addresses[0].state}</span>
+                <span>country: {user?.addresses[0].country}</span>
               </address>
             </div>
-            <div className='grid auto-rows-max gap-3'>
-              <div className='font-semibold'>Billing Information</div>
-              <div className='text-muted-foreground'>
-                Same as shipping address
-              </div>
-            </div>
-          </div>
+          </ScrollArea>
           <Separator className='my-4' />
           <div className='grid gap-3'>
             <div className='font-semibold'>Customer Information</div>
             <dl className='grid gap-3'>
               <div className='flex items-center justify-between'>
                 <dt className='text-muted-foreground'>Customer</dt>
-                <dd>Liam Johnson</dd>
+                <dd>{user?.name}</dd>
               </div>
               <div className='flex items-center justify-between'>
                 <dt className='text-muted-foreground'>Email</dt>
                 <dd>
-                  <a href='mailto:'>liam@acme.com</a>
+                  <a href='mailto:'>{user?.email}</a>
                 </dd>
               </div>
               <div className='flex items-center justify-between'>
                 <dt className='text-muted-foreground'>Phone</dt>
                 <dd>
-                  <a href='tel:'>+1 234 567 890</a>
+                  <a href='tel:'>+1 234 567 890(fake)</a>
                 </dd>
               </div>
             </dl>
@@ -179,24 +187,11 @@ export default async function OrderDetails({ orderId }: { orderId: string }) {
         </CardContent>
         <CardFooter className='flex flex-row items-center border-t bg-muted/50 px-6 py-3'>
           <div className='text-xs text-muted-foreground'>
-            Updated <time dateTime='2023-11-23'>November 23, 2023</time>
+            Created at{' '}
+            <time dateTime={order?.createdAt.toDateString()}>
+              {order?.createdAt.toDateString()}
+            </time>
           </div>
-          <Pagination className='ml-auto mr-0 w-auto'>
-            <PaginationContent>
-              <PaginationItem>
-                <Button size='icon' variant='outline' className='h-6 w-6'>
-                  <ChevronLeft className='h-3.5 w-3.5' />
-                  <span className='sr-only'>Previous Order</span>
-                </Button>
-              </PaginationItem>
-              <PaginationItem>
-                <Button size='icon' variant='outline' className='h-6 w-6'>
-                  <ChevronRight className='h-3.5 w-3.5' />
-                  <span className='sr-only'>Next Order</span>
-                </Button>
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
         </CardFooter>
       </Card>
     </div>

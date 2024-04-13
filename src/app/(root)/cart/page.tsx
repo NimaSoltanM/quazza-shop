@@ -21,7 +21,7 @@ import {
 import { Button } from '@/components/ui/button';
 import QuantitySelect from './quantity-select';
 import RemoveBtn from './remove-btn';
-import { formatPrice } from '@/lib/utils';
+import { calculateTotalWithTaxAndShipping, formatPrice } from '@/lib/utils';
 import { checkoutAction } from './_actions/checkout';
 
 export default async function Page() {
@@ -42,12 +42,18 @@ export default async function Page() {
 
   const cartItems = cart?.items || [];
 
-  const subTotal = cartItems.reduce((acc, item) => {
-    return acc + item.product.price * item.quantity;
-  }, 0);
+  let cartItemsPricesAndQuantity: { price: number; quantity: number }[] = [];
 
-  const tax = (5 / 100) * subTotal;
-  const shipping = 2000;
+  if (cart && cart.items) {
+    cartItemsPricesAndQuantity = cart.items.map((item) => ({
+      price: item.product.price,
+      quantity: item.quantity,
+    }));
+  }
+
+  const { subTotal, total, tax, shipping } = calculateTotalWithTaxAndShipping(
+    cartItemsPricesAndQuantity
+  );
 
   return (
     <>
