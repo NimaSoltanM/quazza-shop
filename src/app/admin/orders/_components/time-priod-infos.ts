@@ -1,123 +1,109 @@
 import { db } from '@/lib/db';
 
-export async function getThisWeekOrdersValues() {
+export async function calculateSalesData() {
   const currentDate = new Date();
-  const startOfWeek = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    currentDate.getDate() - currentDate.getDay()
+  const currentWeekStart = new Date(currentDate);
+  currentWeekStart.setDate(
+    currentWeekStart.getDate() - currentWeekStart.getDay()
   );
-  const endOfWeek = new Date(startOfWeek.getTime() + 6 * 24 * 60 * 60 * 1000);
+  currentWeekStart.setHours(0, 0, 0, 0);
 
-  const startOfLastWeek = new Date(
-    startOfWeek.getTime() - 7 * 24 * 60 * 60 * 1000
-  );
-  const endOfLastWeek = startOfWeek;
+  const previousWeekStart = new Date(currentWeekStart);
+  previousWeekStart.setDate(previousWeekStart.getDate() - 7);
 
-  const thisWeekOrders = await db.order.findMany({
-    where: {
-      createdAt: {
-        gte: startOfWeek,
-        lt: endOfWeek,
-      },
-    },
-    select: {
-      total: true,
-    },
-  });
-
-  const lastWeekOrders = await db.order.findMany({
-    where: {
-      createdAt: {
-        gte: startOfLastWeek,
-        lt: endOfLastWeek,
-      },
-    },
-    select: {
-      total: true,
-    },
-  });
-
-  const thisWeekTotal = thisWeekOrders.reduce(
-    (acc, order) => acc + order.total,
-    0
-  );
-  const lastWeekTotal = lastWeekOrders.reduce(
-    (acc, order) => acc + order.total,
-    0
-  );
-
-  //round this up to 2 digits
-  const rawPercentChange =
-    ((thisWeekTotal - lastWeekTotal) / lastWeekTotal) * 100;
-  const weekPercentChange = Math.round(rawPercentChange * 100) / 100;
-
-  return { thisWeekTotal, weekPercentChange };
-}
-
-export async function getThisMonthOrdersValues() {
-  const currentDate = new Date();
-  const startOfMonth = new Date(
+  const currentMonthStart = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth(),
     1
   );
-  const endOfMonth = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth() + 1,
-    0
-  );
-
-  const startOfLastMonth = new Date(
+  const previousMonthStart = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth() - 1,
     1
   );
-  const endOfLastMonth = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    0
-  );
 
-  const thisMonthOrders = await db.order.findMany({
+  const currentWeekOrders = await db.order.findMany({
     where: {
       createdAt: {
-        gte: startOfMonth,
-        lt: endOfMonth,
+        gte: currentWeekStart,
+        lt: new Date(currentWeekStart.getTime() + 7 * 24 * 60 * 60 * 1000),
       },
     },
-    select: {
-      total: true,
+    include: {
+      items: true,
     },
   });
 
-  const lastMonthOrders = await db.order.findMany({
+  const previousWeekOrders = await db.order.findMany({
     where: {
       createdAt: {
-        gte: startOfLastMonth,
-        lt: endOfLastMonth,
+        gte: previousWeekStart,
+        lt: currentWeekStart,
       },
     },
-    select: {
-      total: true,
+    include: {
+      items: true,
     },
   });
 
-  const thisMonthTotal = thisMonthOrders.reduce(
-    (acc, order) => acc + order.total,
+  const currentMonthOrders = await db.order.findMany({
+    where: {
+      createdAt: {
+        gte: currentMonthStart,
+        lt: new Date(
+          currentMonthStart.getFullYear(),
+          currentMonthStart.getMonth() + 1,
+          1
+        ),
+      },
+    },
+    include: {
+      items: true,
+    },
+  });
+
+  const previousMonthOrders = await db.order.findMany({
+    where: {
+      createdAt: {
+        gte: previousMonthStart,
+        lt: currentMonthStart,
+      },
+    },
+    include: {
+      items: true,
+    },
+  });
+
+  const thisWeekTotal = currentWeekOrders.reduce(
+    (total, order) => total + order.total,
     0
   );
-  const lastMonthTotal = lastMonthOrders.reduce(
-    (acc, order) => acc + order.total,
+  const previousWeekTotal = previousWeekOrders.reduce(
+    (total, order) => total + order.total,
     0
   );
+  const weekPercentChange =
+    previousWeekTotal === 0
+      ? 100
+      : ((thisWeekTotal - previousWeekTotal) / previousWeekTotal) * 100;
 
-  const rawPercentChange =
-    lastMonthTotal === 0
-      ? thisMonthTotal * 100
-      : ((thisMonthTotal - lastMonthTotal) / lastMonthTotal) * 100;
-  const monthPercentChange = Math.round(rawPercentChange * 100) / 100;
+  const thisMonthTotal = currentMonthOrders.reduce(
+    (total, order) => total + order.total,
+    0
+  );
+  const previousMonthTotal = previousMonthOrders.reduce(
+    (total, order) => total + order.total,
+    0
+  );
+  const monthPercentChange =
+    previousMonthTotal === 0
+      ? 100
+      : ((thisMonthTotal - previousMonthTotal) / previousMonthTotal) * 100;
 
-  //export percentChange as monthPercentageChange
-  return { thisMonthTotal, monthPercentChange };
+  return {
+    thisWeekTotal,
+    weekPercentChange,
+    thisMonthTotal,
+    monthPercentChange,
+  };
 }

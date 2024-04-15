@@ -8,16 +8,16 @@ import {
 } from '@/components/ui/card';
 
 import { Progress } from '@/components/ui/progress';
-import {
-  getThisMonthOrdersValues,
-  getThisWeekOrdersValues,
-} from './time-priod-infos';
 import { formatPrice } from '@/lib/utils';
+import { calculateSalesData } from './time-priod-infos';
 
 export default async function SalesInfo() {
-  const { thisWeekTotal, weekPercentChange } = await getThisWeekOrdersValues();
-  const { thisMonthTotal, monthPercentChange } =
-    await getThisMonthOrdersValues();
+  const {
+    thisWeekTotal,
+    weekPercentChange,
+    thisMonthTotal,
+    monthPercentChange,
+  } = await calculateSalesData();
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
@@ -30,13 +30,13 @@ export default async function SalesInfo() {
         </CardHeader>
         <CardContent>
           <div className='text-xs text-muted-foreground'>
-            +{weekPercentChange}% from last week
+            {weekPercentChange.toFixed(2)}% from last week
           </div>
         </CardContent>
         <CardFooter>
           <Progress
             value={weekPercentChange}
-            aria-label={`${weekPercentChange}% increase`}
+            aria-label={`${weekPercentChange.toFixed(2)}%`}
           />
         </CardFooter>
       </Card>
@@ -49,13 +49,13 @@ export default async function SalesInfo() {
         </CardHeader>
         <CardContent>
           <div className='text-xs text-muted-foreground'>
-            +{monthPercentChange}% from last month
+            +{monthPercentChange.toFixed(2)}% from last month
           </div>
         </CardContent>
         <CardFooter>
           <Progress
             value={monthPercentChange}
-            aria-label={`${monthPercentChange}% increase`}
+            aria-label={`${monthPercentChange.toFixed(2)}%`}
           />
         </CardFooter>
       </Card>
