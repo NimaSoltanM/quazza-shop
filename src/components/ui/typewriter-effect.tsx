@@ -33,6 +33,7 @@ export const TypewriterEffect = ({
         {
           display: 'inline-block',
           opacity: 1,
+          width: 'fit-content',
         },
         {
           duration: 0.3,
@@ -106,7 +107,6 @@ export const TypewriterEffectSmooth = ({
   className?: string;
   cursorClassName?: string;
 }) => {
-  // split text inside of words into array of characters
   const wordsArray = words.map((word) => {
     return {
       ...word,

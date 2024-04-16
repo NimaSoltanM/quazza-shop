@@ -7,6 +7,7 @@ const nextConfig = {
     remotePatterns: [
       { hostname: 'dkstatics-public.digikala.com' },
       { hostname: 'images.unsplash.com' },
+      { hostname: 'avatars.githubusercontent.com' },
     ],
   },
 };

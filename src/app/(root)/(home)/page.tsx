@@ -7,9 +7,8 @@ import {
   Card,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import FeaturedProducts from './featured-products';
-import { MainTitle } from './main-title';
-import { BackgroundBeams } from '@/components/ui/background-beams';
+import FeaturedProducts from './_components/featured-products';
+import { MainTitle } from './_components/main-title';
 
 export default function Home() {
   return (

@@ -1,4 +1,5 @@
 'use client';
+
 import { TypewriterEffect } from '@/components/ui/typewriter-effect';
 
 export function MainTitle() {
@@ -23,5 +24,9 @@ export function MainTitle() {
       className: 'text-blue-500 dark:text-blue-500',
     },
   ];
-  return <TypewriterEffect words={words} />;
+  return (
+    <div>
+      <TypewriterEffect words={words} />
+    </div>
+  );
 }

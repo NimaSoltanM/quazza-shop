@@ -1,8 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DataTable } from '@/components/ui/data-table';
-import { db } from '@/lib/db';
 import { orderCols } from '@/components/data-table-cols/admin/order-cols';
-import { formatPrice } from '@/lib/utils';
 import ExportButton from '@/components/shared/export-button';
 import { getOrdersData } from './order-infos';
 
