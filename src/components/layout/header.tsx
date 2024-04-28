@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { MenuIcon, Package2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 
 import {
   DropdownMenu,
@@ -13,9 +13,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { Input } from '@/components/ui/input';
 import BreadCrumpComp from '../shared/bread-crump-comp';
-import { getCurrentUser, getCurrentUserId } from '@/lib/auth';
+import { getCurrentUser } from '@/lib/auth';
 import Image from 'next/image';
 
 interface NavLink {

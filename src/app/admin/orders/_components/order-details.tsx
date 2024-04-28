@@ -1,17 +1,15 @@
-import {
-  ChevronLeft,
-  ChevronRight,
-  Copy,
-  CreditCard,
-  MoreVertical,
-  Truck,
-} from 'lucide-react';
+'use client';
+
+import { Copy, CreditCard, MoreVertical, Truck } from 'lucide-react';
+import { Prisma } from '@prisma/client';
+
+import { useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -23,50 +21,45 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-} from '@/components/ui/pagination';
+
 import { Separator } from '@/components/ui/separator';
-import { db } from '@/lib/db';
-import { calculateTotalWithTaxAndShipping, formatPrice } from '@/lib/utils';
+import { formatPrice } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-export default async function OrderDetails({ orderId }: { orderId: string }) {
-  //TODO: make it client side
-  if (orderId === '') {
-    return (
-      <div>
-        <h1>no item selected</h1>
-      </div>
-    );
-  }
+type OrderInfoType = {
+  subTotal: number;
+  tax: number;
+  shipping: number;
+  total: number;
+};
 
-  const fixedOrderId = `#${orderId}`;
+type OrderWithItems = Prisma.OrderGetPayload<{
+  include: {
+    items: true;
+  };
+}>;
 
-  const order = await db.order.findFirst({
-    where: { digitId: fixedOrderId },
-    include: { items: true },
-  });
+type UserWithAddresses = Prisma.UserGetPayload<{
+  include: {
+    addresses: true;
+  };
+}>;
+export default function OrderDetails({
+  order,
+  user,
+  orderInfo,
+}: {
+  order: OrderWithItems;
+  user: UserWithAddresses;
+  orderInfo: OrderInfoType;
+}) {
+  const searchParams = useSearchParams();
+  const orderId = searchParams.get('orderId');
+  const router = useRouter();
 
-  const user = await db.user.findFirst({
-    where: { id: order?.userId },
-    include: { addresses: true },
-  });
-
-  let orderItemsPricesAndQuantity: { price: number; quantity: number }[] = [];
-
-  if (order && order.items) {
-    orderItemsPricesAndQuantity = order.items.map((item) => ({
-      price: item.price,
-      quantity: item.quantity,
-    }));
-  }
-
-  const { subTotal, total, tax, shipping } = calculateTotalWithTaxAndShipping(
-    orderItemsPricesAndQuantity
-  );
+  useEffect(() => {
+    router.refresh();
+  }, [orderId, router]);
 
   return (
     <div>
@@ -118,19 +111,19 @@ export default async function OrderDetails({ orderId }: { orderId: string }) {
             <ul className='grid gap-3'>
               <li className='flex items-center justify-between'>
                 <span className='text-muted-foreground'>Subtotal</span>
-                <span>{formatPrice(subTotal)}</span>
+                <span>{formatPrice(orderInfo.subTotal)}</span>
               </li>
               <li className='flex items-center justify-between'>
                 <span className='text-muted-foreground'>Shipping</span>
-                <span>{formatPrice(shipping)}</span>
+                <span>{formatPrice(orderInfo.shipping)}</span>
               </li>
               <li className='flex items-center justify-between'>
                 <span className='text-muted-foreground'>Tax</span>
-                <span>{formatPrice(tax)}</span>
+                <span>{formatPrice(orderInfo.tax)}</span>
               </li>
               <li className='flex items-center justify-between font-semibold'>
                 <span className='text-muted-foreground'>Total</span>
-                <span>{formatPrice(total)}</span>
+                <span>{formatPrice(orderInfo.total)}</span>
               </li>
             </ul>
           </div>

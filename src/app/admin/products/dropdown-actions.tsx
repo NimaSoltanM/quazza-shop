@@ -3,7 +3,7 @@
 import {
   changeProductStatusAction,
   removeProductAction,
-} from '../_actions/products/actions';
+} from './_actions/actions';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenuTrigger,

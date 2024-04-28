@@ -8,14 +8,6 @@ import {
   DrawerContent,
   Drawer,
 } from '@/components/ui/drawer';
-import { Label } from '@/components/ui/label';
-import {
-  SelectValue,
-  SelectTrigger,
-  SelectItem,
-  SelectContent,
-  Select,
-} from '@/components/ui/select';
 import Availability from './availability';
 import ClearButton from './clear-button';
 import PriceRange from './price-range';

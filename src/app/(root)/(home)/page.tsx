@@ -55,7 +55,7 @@ export default function Home() {
                   <CardDescription>
                     Explore the latest smartphones from top brands.
                   </CardDescription>
-                  <Link className='mt-auto' href='/products/smartphones'>
+                  <Link className='mt-auto' href='/products/smart-phones'>
                     <Button>Shop Now</Button>
                   </Link>
                 </CardContent>

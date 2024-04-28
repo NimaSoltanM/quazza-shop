@@ -1,9 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown } from 'lucide-react';
 import { MoreHorizontal } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { revalidatePath } from 'next/cache';
+import { Badge } from '@/components/ui/badge';
 
 interface Order {
   orderId: string;
@@ -26,13 +24,11 @@ interface Order {
 }
 
 const addOrderIdToUrl = (id: string) => {
-  // Remove the '#' from the beginning of the id
   const orderId = id.replace('#', '');
 
   const searchParams = new URLSearchParams(window.location.search);
   searchParams.set('orderId', orderId);
   window.history.replaceState({}, '', `?${searchParams.toString()}`);
-  window.location.reload();
 };
 
 export const orderCols: ColumnDef<Order>[] = [
@@ -51,6 +47,17 @@ export const orderCols: ColumnDef<Order>[] = [
   {
     accessorKey: 'status',
     header: 'Status',
+    cell(props) {
+      //@ts-ignore
+      const value = props.getValue();
+
+      if (value === 'pending')
+        return <Badge variant='default'>{value.toUpperCase()}</Badge>;
+      else if (value === 'cancelled')
+        return <Badge variant='destructive'>{value.toUpperCase()}</Badge>;
+      else if (value === 'completed')
+        return <Badge variant='secondary'>{value.toUpperCase()}</Badge>;
+    },
   },
   {
     accessorKey: 'date',

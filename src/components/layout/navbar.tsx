@@ -1,9 +1,9 @@
 import { SheetTrigger, SheetContent, Sheet } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import UserButton from '../auth/user-button';
 import { getCurrentUserRole } from '@/lib/auth';
 import { LayoutDashboard } from 'lucide-react';
+import { Link } from 'next-view-transitions';
 
 export default async function Navbar() {
   const userRole = await getCurrentUserRole();

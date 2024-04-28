@@ -1,4 +1,4 @@
-import SubmitButton from '../../../../../components/shared/submit-btn';
+import SubmitButton from '@/components/shared/submit-btn';
 import {
   Select,
   SelectContent,
