@@ -11,7 +11,7 @@ import {
 import Availability from './availability';
 import ClearButton from './clear-button';
 import PriceRange from './price-range';
-import { priceRange } from '@/types';
+import { priceRange } from '@/types/types';
 import SortBy from './sort-by';
 
 export default function MobileFilterSection({

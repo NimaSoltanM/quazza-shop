@@ -10,7 +10,7 @@ import {
   SelectContent,
   Select,
 } from '@/components/ui/select';
-import { priceRange } from '@/types';
+import { priceRange } from '@/types/types';
 
 export default function PriceRange({ ranges }: { ranges: priceRange[] }) {
   const searchParams = useSearchParams();
